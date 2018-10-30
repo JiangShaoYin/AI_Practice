@@ -10,19 +10,18 @@ global_step = tf.Variable(0, trainable=False)
 MOVING_AVERAGE_DECAY = 0.99
 ema = tf.train.ExponentialMovingAverage(MOVING_AVERAGE_DECAY, global_step)
 #ema.apply后的括号里是更新列表，每次运行sess.run（ema_op）时，对更新列表中的元素求滑动平均值。
-#在实际应用中会使用tf.trainable_variables()自动将所有待训练的参数汇总为列表
 #ema_op = ema.apply([w1])
-ema_op = ema.apply(tf.trainable_variables())
+ema_op = ema.apply(tf.trainable_variables())#在实际应用中会使用tf.trainable_variables()自动将所有待训练的参数汇总为列表
 
 #2. 查看不同迭代中变量取值的变化。
 with tf.Session() as sess:
     # 初始化
     init_op = tf.global_variables_initializer()
     sess.run(init_op)
-	#用ema.average(w1)获取w1滑动平均值 （要运行多个节点，作为列表中的元素列出，写在sess.run中）
-	#打印出当前参数w1和w1滑动平均值
     print "current global_step:", sess.run(global_step)
-    print "current w1", sess.run([w1, ema.average(w1)]) 
+	#用ema.average(w1)获取w1滑动平均值 
+	#打印出当前参数w1和w1滑动平均值
+    print "current w1", sess.run([w1, ema.average(w1)]) #（要运行多个节点，作为列表中的元素列出，写在sess.run中）
     
     # 参数w1的值赋为1
     sess.run(tf.assign(w1, 1))
@@ -36,7 +35,7 @@ with tf.Session() as sess:
     sess.run(ema_op)
     print "current global_step:", sess.run(global_step)
     print "current w1:", sess.run([w1, ema.average(w1)])       
-    
+    print "\n\n\n\n\n\n" 
     # 每次sess.run会更新一次w1的滑动平均值
     sess.run(ema_op)
     print "current global_step:" , sess.run(global_step)

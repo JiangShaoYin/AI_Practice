@@ -26,5 +26,5 @@ with tf.Session() as sess:
         learning_rate_val = sess.run(learning_rate)
         global_step_val = sess.run(global_step)
         w_val = sess.run(w)
-        loss_val = sess.run(loss)
-        print "After %s steps: global_step is %f, w is %f, learning rate is %f, loss is %f" % (i, global_step_val, w_val, learning_rate_val, loss_val)
+     #   loss_val = sess.run(loss)
+        print "After %s steps: global_step is %f, w is %f, learning rate is %f, loss is %f" % (i, global_step_val, w_val, learning_rate_val, sess.run(loss))

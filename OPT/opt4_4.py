@@ -11,6 +11,7 @@ train_step = tf.train.GradientDescentOptimizer(0.2).minimize(loss)
 with tf.Session() as sess:
     init_op=tf.global_variables_initializer()
     sess.run(init_op)
+    print sess.run(w)
     for i in range(40):
         sess.run(train_step)
         w_val = sess.run(w)

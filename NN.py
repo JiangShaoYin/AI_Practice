@@ -12,7 +12,7 @@ standard_answer = [[int(Input1 + Input2 < 1)] for (Input1,Input2) in input_matri
 #print "input_matrix:\n",input_matrix
 #print "Result:\n",standard_answer
 
-#1 
+#1 define forward propagation
 input_layer = tf.placeholder(tf.float32, shape=(None, 2))
 bp_answer = tf.placeholder(tf.float32, shape=(None, 1))
 
@@ -29,7 +29,7 @@ train_step = tf.train.GradientDescentOptimizer(0.001).minimize(loss)    #minimiz
 
 #3 train  STEPS times
 with tf.Session() as sess:
-	sess.run(tf.global_variables_initializer())
+	sess.run(tf.global_variables_initializer())#直到我们调用sess.run，变量都是未被初始化的
 	print "w1,w2 before train:"
 	print "w1:\n", sess.run(w1)
 	print "w2:\n", sess.run(w2)

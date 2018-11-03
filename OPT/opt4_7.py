@@ -80,6 +80,7 @@ with tf.Session() as sess:
 	probs = sess.run(y, feed_dict={x:grid})
 	#probs的shape调整成xx的样子
 	probs = probs.reshape(xx.shape)
+        print ".................\n\n\n\n\n\n\n"
 	print "w1:\n",sess.run(w1)
 	print "b1:\n",sess.run(b1)
 	print "w2:\n",sess.run(w2)	

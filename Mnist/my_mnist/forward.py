@@ -24,7 +24,8 @@ def get_bais(shape):
     b = tf.Variable(tf.zero(shape))
     return b
 
-#define forward propagation method,do function forward(), and return the computed result of the  nerual network
+#define forward propagation method,do function forward(), 
+#and return the computed result of the  nerual network
 def forward(x, regularizer):
     w1 = get_weight([INPUT_NODE,LAYER1_NODE], regularizer)
     b1 = get_weight([LAYER1_NODE])

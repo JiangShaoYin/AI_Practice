@@ -45,7 +45,7 @@ y_ = tf.placeholder(tf.float32, shape=(None, 1))
 w1 = get_weight([2,11], 0.01)	
 b1 = get_bias([11])
 
-y1 = tf.nn.relu(tf.matmul(x, w1)+b1)#矩阵加法
+y1 = tf.nn.relu(tf.matmul(x, w1)+b1)#矩阵加法？？？？
 
 w2 = get_weight([11,1], 0.01)
 b2 = get_bias([1])

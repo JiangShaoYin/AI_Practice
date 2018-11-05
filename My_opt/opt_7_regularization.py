@@ -18,17 +18,31 @@ standard_answer_color = [['red' if y==1 else 'blue'] for y in standard_answer]
 input_matrix = np.vstack(input_matrix).reshape(-1,2)#the first args equal -1 which means it will be set by the second args automatically
 standard_answer = np.vstack(standard_answer).reshape(-1,1)
 #input_matrix[:,0] stand for input_matrix中的第一列元素
+<<<<<<< HEAD
 plt.scatter(input_matrix[:,0], input_matrix[:, 1], c = np.squeeze(standard_answer_color))
 plt.show()
 
 #1 define forward propagation
 def get_weight(shape_formal_arge, regularizer):
-        w = tf.Variable(tf.random_normal(shape_formal_arge), dtype = tf.float32)
+        w = tf.Variable(tf.random_normal(shape_formal_arge))
         tf.add_to_collection('losses', tf.contrib.layers.l2_regularizer(regularizer)(w))
         return w
 
 def get_bias(shape_formal_args):
     b = tf.Variable(tf.constant(0.01, shape = shape_formal_args))
+=======
+plt.scatter(input_matrix[:,0], input_matrix[:, 1], color = np.squeeze(standard_answer_color))
+plt.show()
+
+#1 define forward propagation
+def get_weight(shape_formal_arge, regularizer)
+        w = tf.Variable(tf.random_normal(shape_formal_arge), dtype = tf.float32)
+        tf.add_to_collection('losses', tf.contrib.layers.l2_regularizer(regularizer)(w)
+        return w
+
+def get_bias(shape_formal_arge)
+    b = tf.Varible(tf.constant(0.01, shape = shape_formal_arge))
+>>>>>>> 25c0da4f0eeb536b13ec7af5e6e3ea3600e641b7
     return b
 input_layer = tf.placeholder(tf.float32, shape = (None,2))
 bp_answer = tf.placeholder(tf.float32, shape = (None, 1))
@@ -42,6 +56,7 @@ b2 = get_bias([1])
 computed_answer = tf.matmul(hidden_layer, w2) + b2
 
 #2 define loss function 
+<<<<<<< HEAD
 loss_mse = tf.reduce_mean(tf.square(computed_answer - bp_answer))
 loss_regularization = loss_mse + tf.add_n(tf.get_collection('losses'))
 
@@ -73,3 +88,7 @@ plt.scatter(input_matrix[:,0], input_matrix[:,1], c=np.squeeze(standard_answer))
 #：告知 x、y 坐标和各点高度，用 levels 指定高度的点描上颜色 
 plt.contour(xx, yy, probs, levels =[0.5])
 plt.show()
+=======
+
+
+>>>>>>> 25c0da4f0eeb536b13ec7af5e6e3ea3600e641b7

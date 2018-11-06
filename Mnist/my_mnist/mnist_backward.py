@@ -20,6 +20,7 @@ MOVING_AVERAGE_DECAY = 0.99
 MODEL_SAVE_PATH = "./model"
 MODEL_NAME = "mnist_model"
 
+#execute backward propagation to train w
 def backward(mnist):
     x = tf.placeholder(tf.float32, [None, mnist_forward.INPUT_NODE])#
     y_ = tf.placeholder(tf.float32, [None, mnist_forward.OUTPUT_NODE])
@@ -75,8 +76,9 @@ def backward(mnist):
                 print("after %d training step(s), loss on training batch is %g." % (step, loss_value))
                 #save the global_step neural network(current NN)to specified path(which is MODEL_SAVE_PATH + MODEL_NAME)
                 saver.save(sess, os.path.join(MODEL_SAVE_PATH, MODEL_NAME),global_step = global_step)
-                
+        
 def main():
+    #load module from './data',and assign it to class mnist
     mnist = input_data.read_data_sets("./data", one_hot = True)
     backward(mnist)
 

@@ -59,13 +59,29 @@ def backward(mnist):
         ckpt = tf.train.get_checkpoint_state("./model")
         #if checkpoint and it’s path exist,do restore()
         if ckpt and ckpt.model_checkpoint_path:
-                #restore model to current neural network
+            #restore model to current neural network
             saver.restore(sess, ckpt.model_checkpoint_path)
         #end of restore
 
         for i in range(STEPS):
+            #fetch dataset to be trained,assign train image to xs,train labels to ys
             xs, ys = mnist.train.next_batch(BATCH_SIZE)
-        
+            #calculate node train_op, loss,global_step and return the result to _,loss_value, step 
+            #'_' means an anonymous variable which will not in use any more
+            _, loss_value, step = sess.run([train_op, loss,global_step], 
+                                            feed_dict = {x : xs, y_ : ys})
+            #save current neural network with a 1000-step frequency,
+            if i % 1000 == 0:
+                print("after %d training step(s), loss on training batch is %g." % (step, loss_value))
+                #save the global_step neural network(current NN)to specified path(which is MODEL_SAVE_PATH + MODEL_NAME)
+                saver.save(sess, os.path.join(MODEL_SAVE_PATH, MODEL_NAME),global_step = global_step)
+                
+def main():
+    mnist = input_data.read_data_sets("./data", one_hot = True)
+    backward(mnist)
+
+if __name__ == '__main__'
+    main()
 
 
 

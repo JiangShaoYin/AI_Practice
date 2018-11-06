@@ -25,54 +25,69 @@ def backward(mnist):
     y_ = tf.placeholder(tf.float32, [None, mnist_forward.OUTPUT_NODE])
     y = mnist_forward.forward(x, REGULARIZER)
     global_step = tf.Variable(0, trainable = False)
-    #cross entrop,to calculate the distance between the standard probability
+    #cross entropy,to calculate the distance between the standard probability
     #distribution and the nerual network calculated probability distribution 
     ce = tf.nn.sparse_softmax_cross_entropy_with_logits(logits = y,
                                             labels = tf.argmax(y_, 1))
-    #compute the average of ce
+    #compute average ce
     cem = tf.reduce_mean(ce)
-    #compute 
+    #compute total loss with cross entropy 
     loss = cem + tf.add_n(tf.get_collection('losses'))
-
-    learning_rate = tf.train.exponential_decay( LEARNING_RATE_BASE,
-        global_step,
-        mnist.train.num_examples / BATCH_SIZE,#train_num_example返回mnist数据集中的 
-        LEARNING_RATE_DECAY,                   #训练数据量55000
-        staircase=True)
-
-    train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss, global_step=global_step)
-
+    
+    learning_rate = tf.train.exponential_decay(LEARNING_RATE_BASE,
+                                               global_step,
+                                               mnist.train.num_examples / BATCH_SIZE,
+                                               LEARNING_RATE_DECAY,
+                                               staircase = True)
+    train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss,global_step = global_step)
+    #compute exponential moving average(ema) of all tainable variabels
+        #create class ema,prepare to be computed
     ema = tf.train.ExponentialMovingAverage(MOVING_AVERAGE_DECAY, global_step)
+        #aplly ema to all trainable variables
     ema_op = ema.apply(tf.trainable_variables())
-
-    with tf.control_dependencies([train_step, ema_op]):#一次完成两个操作，将两个操作绑定在一起，下一步执行的时候一起训练
-        train_op = tf.no_op(name='train')               
-
-#begin to save
+    #bind operation train_step & ema_op together to realize two operations at time
+    with tf.control_dependencies([train_step, ema_op]):
+        train_op = tf.no_op(name = 'train')
+    #create class saver to save the session below
     saver = tf.train.Saver()
     with tf.Session() as sess:
-        init_op = tf.global_variables_initializer()
-        sess.run(init_op)
+        #initialize all global variables
+        sess.run(tf.global_variables_initializer())
 
+        #restore module
+        #fetch the checkpoint from path "./model"
         ckpt = tf.train.get_checkpoint_state("./model")
+        #if checkpoint and it’s path exist,do restore()
         if ckpt and ckpt.model_checkpoint_path:
-            saver.restore(sess,ckpt.model_checkpoint_path)
+                #restore model to current neural network
+            saver.restore(sess, ckpt.model_checkpoint_path)
+        #end of restore
 
         for i in range(STEPS):
             xs, ys = mnist.train.next_batch(BATCH_SIZE)
+        
 
-            _, loss_value, step = sess.run([train_op, loss, global_step], feed_dict={x: xs, y_: ys})
 
-            if i % 1000 == 0:
-                print("After %d training step(s), loss on training batch is %g." % (step, loss_value))
-                saver.save(sess, os.path.join(MODEL_SAVE_PATH, MODEL_NAME), global_step=global_step)
 
-def main():
-    mnist = input_data.read_data_sets("./data/", one_hot=True)
-    backward(mnist)
 
-if __name__ == '__main__':
-    main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

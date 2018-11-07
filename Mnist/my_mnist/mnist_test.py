@@ -14,9 +14,9 @@ from tensorflow.examples.tutorials.mnist import input_data
 INTERVAL_TIME = 3
 
 def test(mnist):
-    with tf.Graph().as_default as g:
+    with tf.Graph().as_default() as g:
         x = tf.placeholder(tf.float32, [None, mnist_forward.INPUT_NODE])
-        Y_ = tf.placeholder(tf.float32,[Node, mnist_forward.OUTPUT_NODE])
+        y_ = tf.placeholder(tf.float32,[None, mnist_forward.OUTPUT_NODE])
         #execute forward propagation without regularization,and return it's outcome to y
         y = mnist_forward.forward(x, None)
         #create ema with the predefined decay rate
@@ -39,7 +39,7 @@ def test(mnist):
                     global_step = ckpt.model_checkpoint_path.split('/')[-1].split('-')[-1]
                     #compute accuracy_score via test data set
                     accuracy_score = sess.run(accuracy, 
-                        feed_dict={x:mnist.test.image, y_:mnist.test.lables})
+                        feed_dict={x:mnist.test.images, y_:mnist.test.labels})
                     print ("after %s training step(s), test accuracy = %g"
                             % (global_step, accuracy_score))
                 else:

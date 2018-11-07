@@ -1,5 +1,6 @@
 #coding:utf-8
 #0导入模块，生成模拟数据集。
+#hardlink test
 import tensorflow as tf
 import numpy as np
 BATCH_SIZE = 8

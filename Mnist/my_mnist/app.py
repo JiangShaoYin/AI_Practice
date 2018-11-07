@@ -31,7 +31,9 @@ def pre_pic(picName):
     reshaped_array = im_array.reshape([1,784])
     #cast the value from int to float
     reshaped_array = reshaped_array.astype(np.float32)
+    #transfer the value from 0/255,to 0/1
     img_ready = np.multiply(reshaped_array, 1.0/255)
+
 
 
 def application():

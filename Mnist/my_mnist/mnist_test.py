@@ -14,16 +14,23 @@ from tensorflow.examples.tutorials.mnist import input_data
 INTERVAL_TIME = 3
 
 def test(mnist):
+    #creates a new graph and places everything (declared inside its scope) into this graph.
     with tf.Graph().as_default() as g:
+        #define placeholder x,which act as input image
         x = tf.placeholder(tf.float32, [None, mnist_forward.INPUT_NODE])
+        #define y as the computed result which will feed the parameter y_ below
         y_ = tf.placeholder(tf.float32,[None, mnist_forward.OUTPUT_NODE])
         #execute forward propagation without regularization,and return it's outcome to y
         y = mnist_forward.forward(x, None)
-        #create ema with the predefined decay rate
-        ema = tf.train.ExponentialMovingAverage(mnist_backward.MOVING_AVERAGE_DECAY)
-        ema_restore = ema.variables_to_restore()
-        saver = tf.train.Saver(ema_restore)
 
+        #Create an ExponentialMovingAverage object ema
+        ema = tf.train.ExponentialMovingAverage(mnist_backward.MOVING_AVERAGE_DECAY)
+        #method variable_to_restore() return a dict ({ema_variables : variables}) 
+        ema_restore = ema.variables_to_restore()
+        #Create a saver that loads variables from their saved shadow values.
+        saver = tf.train.Saver(ema_restore)
+        
+        #if tf.argmax(y, 1) equals to tf.argmax(y_, 1),correct_prediction will be set True
         correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
         #cast the type of corrent_prediction from boolean to float and compute it's average
         accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))

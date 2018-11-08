@@ -51,14 +51,23 @@ def test(mnist):
                     #compute accuracy_score via test data set
                     accuracy_score = sess.run(accuracy, 
                         feed_dict={x:mnist.test.images, y_:mnist.test.labels})
+                    #print the predict result
                     print ("after %s training step(s), test accuracy = %g"
                             % (global_step, accuracy_score))
-                else:
+                else:#can not get checkpoint file ,print error infomation
                     print ("No checkpoint file found")
+                    #exit this moudle
                     return
+            #set interval time to wait for the checkpoint file which the backward function produce 
             time.sleep(INTERVAL_TIME)
+
+#define function main()
 def main():
+    #read test data from path "./data"
     mnist = input_data.read_data_sets("./data", one_hot = True)
+    #execute test functon
     test(mnist)
+    
+#main function,
 if __name__ == '__main__':
     main()

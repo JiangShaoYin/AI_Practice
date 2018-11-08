@@ -49,11 +49,12 @@ def restore_model(testPicArr):
         y = mnist_forward.forward(x, None)
         #define the predicted value
         predictValue = tf.argmax(y,1)
-        #define class ema_variable_average to restore args that the backward function stored
-        ema_variable_average = tf.train.ExponentialMovingAverage(mnist_backward.MOVING_AVERAGE_DECAY)
-        ema_variable_to_restore = ema_variable_average.variables_to_restore()
-
-        saver = tf.train.Saver(ema_variable_to_restore)
+        #define class ema to restore args that the backward function stored
+        ema = tf.train.ExponentialMovingAverage(mnist_backward.MOVING_AVERAGE_DECAY)
+        #funtion variable_to_restore()
+        ema_restore = ema.variables_to_restore()
+        #Create a saver (an object with stored ema args )
+        saver = tf.train.Saver(ema_restore)
 
         with tf.Session() as sess:
             ckpt = tf.train.get_checkpoint_state(mnist_backward.MODEL_SAVE_PATH)

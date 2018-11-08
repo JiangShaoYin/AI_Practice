@@ -75,6 +75,7 @@ def backward(mnist):
             if i % 1000 == 0:
                 print("after %d training step(s), loss on training batch is %g." % (step, loss_value))
                 #save the global_step neural network(current NN)to specified path(which is MODEL_SAVE_PATH + MODEL_NAME)
+                # and append the step number(3rd argument) to the checkpoint name(2rd argument )
                 saver.save(sess, os.path.join(MODEL_SAVE_PATH, MODEL_NAME),global_step = global_step)
         
 def main():

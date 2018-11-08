@@ -11,7 +11,7 @@ import mnist_forward
 import mnist_backward
 from PIL import Image
 
-testNum = 1
+testNum = 10
 def pre_pic(picName):
 #    print picName
     #img = Image.open("./pic/8.jpg")
@@ -33,7 +33,7 @@ def pre_pic(picName):
                 im_array[i][j] = 255
 #    print '...........................................'
 #    print im_array
-    print im_array
+#    print im_array
     #reshape the picture from 28*28 to 1*784
     reshaped_array = im_array.reshape([1,784])
     #cast the value from int to float

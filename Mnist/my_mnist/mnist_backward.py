@@ -11,6 +11,7 @@ import mnist_forward
 import os
 from tensorflow.examples.tutorials.mnist import input_data
 
+
 BATCH_SIZE = 200
 LEARNING_RATE_BASE = 0.1
 LEARNING_RATE_DECAY = 0.99
@@ -20,11 +21,15 @@ MOVING_AVERAGE_DECAY = 0.99
 MODEL_SAVE_PATH = "./model"
 MODEL_NAME = "mnist_model"
 
-#execute backward propagation to train w
-def backward(mnist):
-    x = tf.placeholder(tf.float32, [None, mnist_forward.INPUT_NODE])#
+#execute backward propagation to train parameter w
+def backward(mnist):#parameter type :class mnist
+    #define placeholder x,which act as input image
+    x = tf.placeholder(tf.float32, [None, mnist_forward.INPUT_NODE])
+    #define placeholder y_,which is output result
     y_ = tf.placeholder(tf.float32, [None, mnist_forward.OUTPUT_NODE])
+    #define y as the computed result which will feed the parameter y_ below
     y = mnist_forward.forward(x, REGULARIZER)
+    #define variable golbal_step to count the step where the model run and set it untrainable
     global_step = tf.Variable(0, trainable = False)
     #cross entropy,to calculate the distance between the standard probability
     #distribution and the nerual network calculated probability distribution 
@@ -34,12 +39,13 @@ def backward(mnist):
     cem = tf.reduce_mean(ce)
     #compute total loss with cross entropy 
     loss = cem + tf.add_n(tf.get_collection('losses'))
-    
+    #set learning_rate with exponential decay(staircase option on) 
     learning_rate = tf.train.exponential_decay(LEARNING_RATE_BASE,
                                                global_step,
                                                mnist.train.num_examples / BATCH_SIZE,
                                                LEARNING_RATE_DECAY,
                                                staircase = True)
+    #use gradient descent optimizer to train model
     train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss,global_step = global_step)
     #compute exponential moving average(ema) of all tainable variabels
         #create class ema,prepare to be computed
@@ -51,6 +57,7 @@ def backward(mnist):
         train_op = tf.no_op(name = 'train')
     #create class saver to save the session below
     saver = tf.train.Saver()
+    #run the compute graph below
     with tf.Session() as sess:
         #initialize all global variables
         sess.run(tf.global_variables_initializer())
@@ -81,8 +88,9 @@ def backward(mnist):
 def main():
     #load module from './data',and assign it to class mnist
     mnist = input_data.read_data_sets("./data", one_hot = True)
+    #execute function to train model
     backward(mnist)
-
+#main function
 if __name__ == '__main__':
     main()
 

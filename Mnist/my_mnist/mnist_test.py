@@ -34,12 +34,16 @@ def test(mnist):
         correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
         #cast the type of corrent_prediction from boolean to float and compute it's average
         accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-
+        
+        #load trained model in the loop
         while True:
+            #create session to manage the context
             with tf.Session() as sess:
                 #fetch chechpoint from sepcified path
                 ckpt = tf.train.get_checkpoint_state(mnist_backward.MODEL_SAVE_PATH)
+                #if got the checkpoint sucessfully do things below
                 if ckpt and ckpt.model_checkpoint_path:
+                    #restore the model to current neural network
                     saver.restore(sess, ckpt.model_checkpoint_path)
                     #fetch the step from the string ckpt.model_checkpoint and extract
                     #the last integer via charactor "/" & "-"

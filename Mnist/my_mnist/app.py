@@ -29,7 +29,7 @@ def pre_pic(picName):
     #set loop to traverse every pixel in the tested images
     for i in range(28):         #width 28
         for j in range(28):     #height 28
-            #invert the image as the input images are just the opposite of images which the neural network training with
+            #invert the image as the input image is just opposite to the picture which the neural network training with
             im_array[i][j] = 255 - im_array[i][j]
             #if the vale < threshold,treat it as pure white(0)
             if (im_array[i][j] < threshold):

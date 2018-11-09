@@ -62,25 +62,41 @@ def restore_model(testPicArr):
         #Create a saver that loads variables from their saved shadow values.
         saver = tf.train.Saver(ema_restore)
 
+        #create session to manage the context
         with tf.Session() as sess:
+            #fetch chechpoint from sepcified path
             ckpt = tf.train.get_checkpoint_state(mnist_backward.MODEL_SAVE_PATH)
+                #if got the checkpoint sucessfully do things below
             if ckpt and ckpt.model_checkpoint_path:
+                    #restore the model to current neural network
                 saver.restore(sess, ckpt.model_checkpoint_path)
+                #input the testPicArr through feed_dict, and return the predicted answer to predictValue 
                 predictValue = sess.run(predictValue, feed_dict={x:testPicArr})
+                #return the value of the picture
                 return predictValue
             else:
+                #fail to fetch the checkpoint,print error infomation
                 print "no checkpoint file found"
+                #return -1 means this function ends abnormally
                 return -1
 
 
 def app():
+    #test the pic in loop
     for i in range(testNum):
+        #concatenate those strings below to create a new string testPic as the path of the tested picture
         testPic = "./pic/" + str(i) + ".jpg"
+        #call function pre_pic() to execute image pretreatment
         testPicArr = pre_pic(testPic)
+        #call function restore_model to discriminate the number in the tested picture
         predictValue = restore_model(testPicArr)
+        #print the result
         print "the predict number is :%d"%predictValue
+
+#define app() as the main function        
 def main():
     app()
 
+#execute main funcion
 if __name__ == '__main__':
     main()

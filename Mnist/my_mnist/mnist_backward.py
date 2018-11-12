@@ -11,6 +11,8 @@ import mnist_forward
 import os
 from tensorflow.examples.tutorials.mnist import input_data
 
+import deng_generateds #1
+
 
 BATCH_SIZE = 200
 LEARNING_RATE_BASE = 0.1
@@ -21,8 +23,10 @@ MOVING_AVERAGE_DECAY = 0.99
 MODEL_SAVE_PATH = "./model"
 MODEL_NAME = "mnist_model"
 
+train_num_examples = 60000 #2
+
 #execute backward propagation to train parameter w
-def backward(mnist):#parameter type :class mnist
+def backward():#parameter type :class mnist
     #define placeholder x,which act as input image
     x = tf.placeholder(tf.float32, [None, mnist_forward.INPUT_NODE])
     #define placeholder y_,which is output result
@@ -42,7 +46,7 @@ def backward(mnist):#parameter type :class mnist
     #set learning_rate with exponential decay(staircase option on) 
     learning_rate = tf.train.exponential_decay(LEARNING_RATE_BASE,
                                                global_step,
-                                               mnist.train.num_examples / BATCH_SIZE,
+                                               train_num_examples / BATCH_SIZE,
                                                LEARNING_RATE_DECAY,
                                                staircase = True)
     #use gradient descent optimizer to train model
@@ -57,6 +61,11 @@ def backward(mnist):#parameter type :class mnist
         train_op = tf.no_op(name = 'train')
     #create class saver to save the session below
     saver = tf.train.Saver()
+        
+    img_batch, lable_batch = deng_generateds.get_tfrecord(BATCH_SIZE, isTrain=True) #3
+
+
+
     #run the compute graph below
     with tf.Session() as sess:
         #initialize all global variables
@@ -71,9 +80,16 @@ def backward(mnist):#parameter type :class mnist
             saver.restore(sess, ckpt.model_checkpoint_path)
         #end of restore
 
+        coord = tf.train.Coordinator()#4
+        threads = tf.train.start_queue_runners(sess=sess, coord=coord)#5
+
+
         for i in range(STEPS):
+
+            xs, ys = sess.run([img_batch, lable_batch]) #6
+
             #fetch dataset to be trained,assign train image to xs,train labels to ys
-            xs, ys = mnist.train.next_batch(BATCH_SIZE)
+            ##xs, ys = mnist.train.next_batch(BATCH_SIZE)
             #calculate node train_op, loss,global_step and return the result to _,loss_value, step 
             #'_' means an anonymous variable which will not in use any more
             _, loss_value, step = sess.run([train_op, loss,global_step], 
@@ -84,12 +100,18 @@ def backward(mnist):#parameter type :class mnist
                 #save the global_step neural network(current NN)to specified path(which is MODEL_SAVE_PATH + MODEL_NAME)
                 # and append the step number(3rd argument) to the checkpoint name(2rd argument )
                 saver.save(sess, os.path.join(MODEL_SAVE_PATH, MODEL_NAME),global_step = global_step)
+
+        coord.request_stop() #7
+        coord.join(threads) #8
         
 def main():
     #load module from './data',and assign it to class mnist
-    mnist = input_data.read_data_sets("./data", one_hot = True)
+#    mnist = input_data.read_data_sets("./data", one_hot = True)
+    print "110"
     #execute function to train model
-    backward(mnist)
+#    backward(mnist)
+    backward()
+    print "......................"
 
 #main function,
 if __name__ == '__main__':

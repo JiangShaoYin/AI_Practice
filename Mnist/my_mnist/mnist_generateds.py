@@ -60,16 +60,16 @@ def generate_tfRecord():
 def read_tfRecord(tfRecord_path):
     filename_queue = tf.train.string_input_producer([tfRecord_path])
     reader = tf.TFRecordReader()
-    _, Serialized_example = reader.read(filename_queue)
-    features = tf.parse_single_example(Serialized_example,
+    _, serialized_example = reader.read(filename_queue)         #possible error point
+    features = tf.parse_single_example(serialized_example,
                                         features={
-                                        'lable':tf.FixedLenFeature([10], tf.int64),
+                                        'label':tf.FixedLenFeature([10], tf.int64),
                                         'img_raw':tf.FixedLenFeature([], tf.string)
                                         })
     img = tf.decode_raw(features['img_raw'], tf.uint8)
     img.set_shape([784])
     img =tf.cast(img, tf.float32)* (1./255)
-    label = tf.cast(features['lable'], tf.float32)
+    label = tf.cast(features['label'], tf.float32)
     return img, label
 
 def get_tfrecord(num, isTrain =True):

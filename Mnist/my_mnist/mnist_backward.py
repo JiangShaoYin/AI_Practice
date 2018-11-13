@@ -11,7 +11,7 @@ import mnist_forward
 import os
 from tensorflow.examples.tutorials.mnist import input_data
 
-import deng_generateds #1
+import mnist_generateds #1
 
 
 BATCH_SIZE = 200
@@ -62,7 +62,7 @@ def backward():#parameter type :class mnist
     #create class saver to save the session below
     saver = tf.train.Saver()
         
-    img_batch, lable_batch = deng_generateds.get_tfrecord(BATCH_SIZE, isTrain=True) #3
+    img_batch, lable_batch = mnist_generateds.get_tfrecord(BATCH_SIZE, isTrain=True) #3
 
 
 

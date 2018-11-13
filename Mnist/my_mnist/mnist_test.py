@@ -10,10 +10,12 @@ import numpy as np
 import time
 import mnist_forward
 import mnist_backward
+import mnist_generateds
 from tensorflow.examples.tutorials.mnist import input_data
-INTERVAL_TIME = 3
+INTERVAL_TIME = 5
+TEST_NUM = 10000 #1
 
-def test(mnist):
+def test():
     #creates a new graph and places everything (declared inside its scope) into this graph.
     with tf.Graph().as_default() as g:
         #define placeholder x,which act as input image
@@ -34,6 +36,8 @@ def test(mnist):
         correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
         #cast the type of corrent_prediction from boolean to float and compute it's average
         accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+
+        img_batch,label_batch = mnist_generateds.get_tfrecord(TEST_NUM, isTrain=False)  #2
         
         #load trained model in the loop
         while True:
@@ -48,12 +52,21 @@ def test(mnist):
                     #fetch the step from the string ckpt.model_checkpoint and extract
                     #the last integer via charactor "/" & "-"
                     global_step = ckpt.model_checkpoint_path.split('/')[-1].split('-')[-1]
+
+                    coord = tf.train.Coordinator()#3
+                    threads = tf.train.start_queue_runners(sess=sess, coord=coord)#4
+                    xs,ys = sess.run([img_batch, label_batch])#5
+
                     #compute accuracy_score via test data set
                     accuracy_score = sess.run(accuracy, 
-                        feed_dict={x:mnist.test.images, y_:mnist.test.labels})
+                        feed_dict={x:xs, y_:ys})
                     #print the predict result
                     print ("after %s training step(s), test accuracy = %g"
                             % (global_step, accuracy_score))
+
+                    coord.request_stop()#6
+                    coord.join(threads)#7
+
                 else:#can not get checkpoint file ,print error infomation
                     print ("No checkpoint file found")
                     #exit this moudle
@@ -64,9 +77,9 @@ def test(mnist):
 #define function main()
 def main():
     #read test data from path "./data"
-    mnist = input_data.read_data_sets("./data", one_hot = True)
+#   mnist = input_data.read_data_sets("./data", one_hot = True)
     #execute test functon
-    test(mnist)
+    test()
     
 #main function,
 if __name__ == '__main__':

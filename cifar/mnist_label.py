@@ -7,8 +7,8 @@ import tensorflow as tf
 import numpy as np
 import os
 
-train_folder = '/home/jiang/AI_Practice/Mnist/my_mnist/cifar-10/train'
-test_folder = '/home/jiang/AI_Practice/Mnist/my_mnist/cifar-10/test'
+train_folder = '/home/jiang/AI_Practice/cifar/cifar-10/train'
+test_folder = '/home/jiang/AI_Practice/cifar/cifar-10/test'
 
 def ReadFile(path):
     pic_folder = os.listdir(path) #pic_folder is a list which equals to  [bird, dog, ....]

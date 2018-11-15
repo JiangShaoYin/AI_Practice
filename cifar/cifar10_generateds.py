@@ -27,30 +27,25 @@ def write_tfRecord(tfRecordName, image_path, label_path):
     writer = tf.python_io.TFRecordWriter(tfRecordName)
     num_pic = 0
     f = open(label_path, 'r')
-#    animal_folders = f.readlines()
-    
-#    f.close()
- #   for animal_folder in animal_folders:
-  #      f1 = open((label_path+'/'+animal_folder), 'r')
-#        contents = f1.readlines()
- #       f1.close()
     contents =f.readlines()
     f.close()
     for content in contents:
-            value = content.split()
-            img_path = image_path + value[0]
-            img = Image.open(img_path)
-            img_raw = img.tobytes()
-            labels = [0] * 10
-            labels[int(value[1])] = 1
+        value = content.split()
 
-            example = tf.train.Example(features=tf.train.Features(feature={
+        img_path = image_path + '/' + value[1] + '/' + value[0]
+
+        img = Image.open(img_path)
+        img_raw = img.tobytes()
+        labels = [0] * 10
+        labels[int(value[2])] = 1
+
+        example = tf.train.Example(features=tf.train.Features(feature={
                 'img_raw':tf.train.Feature(bytes_list = tf.train.BytesList(value=[img_raw])),
                 'label':tf.train.Feature(int64_list=tf.train.Int64List(value=labels))
                 }))
-            writer.write(example.SerializeToString())
-            num_pic += 1
-            print ("the num of pic :",num_pic)
+        writer.write(example.SerializeToString())
+        num_pic += 1
+        print ("the num of pic :",num_pic)
     writer.close()
     print("write tfRecord sussfully")
 
@@ -77,6 +72,7 @@ def read_tfRecord(tfRecord_path):
     img.set_shape([784])
     img =tf.cast(img, tf.float32)* (1./255)
     label = tf.cast(features['label'], tf.float32)
+    print 'read successfully!'
     return img, label
 
 def get_tfrecord(num, isTrain =True):
@@ -85,11 +81,13 @@ def get_tfrecord(num, isTrain =True):
     else:
         tfRecord_path = tfRecord_test
     img, label = read_tfRecord(tfRecord_path)
+    
     img_batch, label_batch = tf.train.shuffle_batch([img, label],
                                                     batch_size = num,
                                                     num_threads = 2,
                                                     capacity = 1000,
                                                     min_after_dequeue = 700)
+    print 'geting successfully!'
     return img_batch,label_batch
 
 def main():

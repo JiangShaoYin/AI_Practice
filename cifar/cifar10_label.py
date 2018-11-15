@@ -13,9 +13,10 @@ test_folder = '/home/jiang/AI_Practice/cifar/cifar-10/test'
 def ReadFile(path):
     pic_folder = os.listdir(path) #pic_folder is a list which equals to  [bird, dog, ....]
 
-    dict_pic_num ={'airplane':0, 'automobile':1, 'bird':2, 'cat':3, 'deer':4,
-                   'dog':5, 'frog':6, 'horse':7, 'ship':8, 'truck':9}
-
+#    dict_pic_num ={'airplane':0, 'automobile':1, 'bird':2, 'cat':3, 'deer':4,
+#                  'dog':5, 'frog':6, 'horse':7, 'ship':8, 'truck':9}
+    num_dict = [0,1,2,3,4,5,6,7,8,9]
+    dict_pic_num = dict(zip(pic_folder,num_dict))
     train_dataset_label = open((path + '_label.txt'),'w')
 
     for folder in pic_folder: # folder like fog ,cat ,etc 
@@ -24,7 +25,7 @@ def ReadFile(path):
         files = os.listdir(pic_folder_path)
         
         for filename in files:#filename == batch_2_num_6379.jpg
-            train_dataset_label.write(filename + '_' + folder + ' ' + str(dict_pic_num[folder]) +'\n')
+            train_dataset_label.write(filename + ' ' + folder + ' ' + str(dict_pic_num[folder]) +'\n')
 
     print pic_folder
 

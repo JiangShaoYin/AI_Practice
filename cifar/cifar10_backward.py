@@ -7,11 +7,11 @@
  
 import tensorflow as tf
 import numpy as np
-import mnist_forward
+import cifar10_forward
 import os
 from tensorflow.examples.tutorials.mnist import input_data
 
-import mnist_generateds #1
+import cifar10_generateds #1
 
 
 BATCH_SIZE = 200
@@ -21,18 +21,18 @@ REGULARIZER = 0.0001
 STEPS = 50000
 MOVING_AVERAGE_DECAY = 0.99
 MODEL_SAVE_PATH = "./model"
-MODEL_NAME = "mnist_model"
+MODEL_NAME = "cifar10_model"
 
-train_num_examples = 60000 #2
+train_num_examples = 50000 #2
 
 #execute backward propagation to train parameter w
 def backward():#parameter type :class mnist
     #define placeholder x,which act as input image
-    x = tf.placeholder(tf.float32, [None, mnist_forward.INPUT_NODE])
+    x = tf.placeholder(tf.float32, [None, cifar10_forward.INPUT_NODE])
     #define placeholder y_,which is output result
-    y_ = tf.placeholder(tf.float32, [None, mnist_forward.OUTPUT_NODE])
+    y_ = tf.placeholder(tf.float32, [None, cifar10_forward.OUTPUT_NODE])
     #define y as the computed result which will feed the parameter y_ below
-    y = mnist_forward.forward(x, REGULARIZER)
+    y = cifar10_forward.forward(x, REGULARIZER)
     #define variable golbal_step to count the step where the model run and set it untrainable
     global_step = tf.Variable(0, trainable = False)
     #cross entropy,to calculate the distance between the standard probability
@@ -62,7 +62,7 @@ def backward():#parameter type :class mnist
     #create class saver to save the session below
     saver = tf.train.Saver()
         
-    img_batch, lable_batch = mnist_generateds.get_tfrecord(BATCH_SIZE, isTrain=True) #3
+    img_batch, lable_batch = cifar10_generateds.get_tfrecord(BATCH_SIZE, isTrain=True) #3
 
 
 
@@ -85,8 +85,9 @@ def backward():#parameter type :class mnist
 
 
         for i in range(STEPS):
-
+            print "before sess.run"
             xs, ys = sess.run([img_batch, lable_batch]) #6
+            print "after sess.run"
 
             #fetch dataset to be trained,assign train image to xs,train labels to ys
             ##xs, ys = mnist.train.next_batch(BATCH_SIZE)

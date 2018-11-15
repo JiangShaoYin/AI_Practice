@@ -26,12 +26,12 @@ resize_width = 28
 def write_tfRecord(tfRecordName, image_path, label_path):
     writer = tf.python_io.TFRecordWriter(tfRecordName)
     num_pic = 0
-    f = open(label_path, 'r')
+    f = open(label_path, 'r') #label_path ==  label_train_path
     contents = f.readlines()
     f.close()
     for content in contents:
         value = content.split()
-        img_path = image_path + value[0]
+        img_path = image_path + value[0]#image_path == image_train_path
         img = Image.open(img_path)
         img_raw = img.tobytes()
         labels = [0] * 10

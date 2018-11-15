@@ -85,9 +85,7 @@ def backward():#parameter type :class mnist
 
 
         for i in range(STEPS):
-            print "before sess.run"
             xs, ys = sess.run([img_batch, lable_batch]) #6
-            print "after sess.run"
 
             #fetch dataset to be trained,assign train image to xs,train labels to ys
             ##xs, ys = mnist.train.next_batch(BATCH_SIZE)

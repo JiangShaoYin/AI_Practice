@@ -7,8 +7,8 @@
  
 import tensorflow as tf
 import numpy as np
-#input node width 784 pixels
-INPUT_NODE = 784
+#input node width 3072 pixels
+INPUT_NODE = 3072
 #output node which have 10 possibility(0~9)
 OUTPUT_NODE = 10
 #hidden layer node quantity 

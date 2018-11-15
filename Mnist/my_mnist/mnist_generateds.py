@@ -78,7 +78,7 @@ def get_tfrecord(num, isTrain =True):
     else:
         tfRecord_path = tfRecord_test
     img, label = read_tfRecord(tfRecord_path)
-    img_batch, label_batch = tf.train.shuffle_batch([img, label],
+    img_batch, label_batch = tf.train.shuffle_batch([img, labl],
                                                     batch_size = num,
                                                     num_threads = 2,
                                                     capacity = 1000,

@@ -17,8 +17,8 @@ testNum = 10
 def pre_pic(picName):
     #open the image by path which the formal parameter told
     img = Image.open(picName)
-    #resize the test image to 28*28,and set antialias
-    reIm = img.resize((28,28),Image.ANTIALIAS)
+    #resize the test image to 32*32,and set antialias
+    reIm = img.resize((32,32),Image.ANTIALIAS)
     #transform the picture to greyscale(0 stands for pure black,255 stands for pure white
     #,the integers from 1~254 stand for grey level)
     im_array = np.array(reIm.convert('L'))
@@ -27,8 +27,8 @@ def pre_pic(picName):
     threshold = 50
 
     #set loop to traverse every pixel in the tested images
-    for i in range(28):         #width 28
-        for j in range(28):     #height 28
+    for i in range(32):         #width 32
+        for j in range(32):     #height 32
             #invert the image as the input image is just opposite to the picture which the neural network training with
             im_array[i][j] = 255 - im_array[i][j]
             #if the vale < threshold,treat it as pure white(0)
@@ -36,8 +36,8 @@ def pre_pic(picName):
                 im_array[i][j] = 0
             else:       #if the vale >= threshold,treat it as pure balck(255)
                 im_array[i][j] = 255
-    #reshape the picture from 28*28 to 1*784
-    reshaped_array = im_array.reshape([1,784])
+    #reshape the picture from 32*32 to 1*3072
+    reshaped_array = im_array.reshape([1,3072])
     #cast the value from int to float
     reshaped_array = reshaped_array.astype(np.float32)
     #transfer the value from 0/255,to 0/1

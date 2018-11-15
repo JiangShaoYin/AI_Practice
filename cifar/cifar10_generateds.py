@@ -19,8 +19,8 @@ label_test_path = './cifar-10/test_label.txt'
 tfRecord_test = './data/cifar_test.tfrecords'
 
 data_path = './data'
-resize_height = 28
-resize_width = 28
+resize_height = 32
+resize_width = 32
 
 
 def write_tfRecord(tfRecordName, image_path, label_path):
@@ -69,7 +69,7 @@ def read_tfRecord(tfRecord_path):
                                         'img_raw':tf.FixedLenFeature([], tf.string)
                                         })
     img = tf.decode_raw(features['img_raw'], tf.uint8)
-    img.set_shape([784])
+    img.set_shape([3072])
     img =tf.cast(img, tf.float32)* (1./255)
     label = tf.cast(features['label'], tf.float32)
     print 'read successfully!'

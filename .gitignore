@@ -3,4 +3,6 @@
 *.apk
 *.gz
 *.jpg
+*.tfrecords
 .gitignore
+

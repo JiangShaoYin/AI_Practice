@@ -9,6 +9,7 @@ import tensorflow as tf
 import numpy as np
 import os
 from PIL import Image
+import random
 
 image_train_path = './cifar-10/train/'
 label_train_path = './cifar-10/train_label.txt'
@@ -28,6 +29,7 @@ def write_tfRecord(tfRecordName, image_path, label_path):
     num_pic = 0
     f = open(label_path, 'r')
     contents =f.readlines()
+    random.shuffle(contents)
     f.close()
     for content in contents:
         value = content.split()

@@ -4,5 +4,9 @@
 *.gz
 *.jpg
 *.tfrecords
+*.index
+*.meta
+*00001
+checkpoint
 .gitignore
 

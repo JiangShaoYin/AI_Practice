@@ -1,6 +1,0 @@
-model_checkpoint_path: "cifar10_model-48003"
-all_model_checkpoint_paths: "cifar10_model-44003"
-all_model_checkpoint_paths: "cifar10_model-45003"
-all_model_checkpoint_paths: "cifar10_model-46003"
-all_model_checkpoint_paths: "cifar10_model-47003"
-all_model_checkpoint_paths: "cifar10_model-48003"

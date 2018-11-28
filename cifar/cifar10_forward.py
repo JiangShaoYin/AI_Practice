@@ -13,7 +13,7 @@ INPUT_NODE = 3072
 OUTPUT_NODE = 10
 #hidden layer node quantity 
 LAYER1_NODE = 500
-
+#if
 #private function ,only called by function forward()
 def get_weight(shape, regularizer):
     #define variable w conform to normal distribution with standard deviation 0.1

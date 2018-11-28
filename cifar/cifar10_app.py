@@ -13,7 +13,7 @@ from PIL import Image
 # set the number of the pictures to be tested
 testNum = 10
 
-#Image pretreatment.
+#Image pretreatment
 def pre_pic(picName):
     #open the image by path which the formal parameter told
     img = Image.open(picName)

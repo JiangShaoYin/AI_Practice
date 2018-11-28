@@ -12,7 +12,7 @@ import os
 from tensorflow.examples.tutorials.mnist import input_data
 
 import cifar10_generateds #1
-
+#back
 
 BATCH_SIZE = 200
 LEARNING_RATE_BASE = 0.1

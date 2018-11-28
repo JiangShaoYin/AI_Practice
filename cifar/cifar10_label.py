@@ -6,7 +6,7 @@
 import tensorflow as tf
 import numpy as np
 import os
-#scripts
+#script
 train_folder = '/home/jiang/AI_Practice/cifar/cifar-10/train'
 test_folder = '/home/jiang/AI_Practice/cifar/cifar-10/test'
 

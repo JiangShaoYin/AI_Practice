@@ -14,8 +14,8 @@ from tensorflow.examples.tutorials.mnist import input_data
 import cifar10_generateds #1
 
 
-BATCH_SIZE = 200
-LEARNING_RATE_BASE = 0.1
+BATCH_SIZE = 100
+LEARNING_RATE_BASE = 0.005
 LEARNING_RATE_DECAY = 0.99
 REGULARIZER = 0.0001
 STEPS = 50000

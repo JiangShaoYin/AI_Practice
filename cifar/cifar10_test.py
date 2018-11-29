@@ -14,7 +14,7 @@ import cifar10_generateds
 from tensorflow.examples.tutorials.mnist import input_data
 INTERVAL_TIME = 5
 TEST_NUM = 10000 #1
-#test
+#test.
 def test():
     #creates a new graph and places everything (declared inside its scope) into this graph.
     with tf.Graph().as_default() as g:

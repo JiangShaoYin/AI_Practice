@@ -64,12 +64,13 @@ def forward(x, train, regularizer):
 
     pool_shape = pool2.get_shape().as_list()
     nodes = pool_shape[1] * pool_shape[2] * pool_shape[3]
-    reshape = tf.reshape(pool2, [pool_shape[0], nodes])
+    reshaped = tf.reshape(pool2, [pool_shape[0], nodes])
 
     fc1_w = get_weight([nodes, FC_SIZE], regularizer)
     fc1_b = get_bais([FC_SIZE])
     fc1 = tf.nn.relu(tf.matmul(reshaped,fc1_w) + fc1_b)
-    if train:#如果是训练阶段，则将上一轮的输出fc1，随机舍去一定比例的计算结果（神经元）
+	#如果是训练阶段，则将上一轮的输出fc1，随机舍去一定比例的计算结果（神经元）
+    if train:
         fc1 = tf.nn.dropout(fc1, 0.5)
 
     fc2_w = get_weight([FC_SIZE, OUTPUT_NODE], regularizer)

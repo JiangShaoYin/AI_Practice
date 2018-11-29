@@ -62,3 +62,12 @@ def forward(x, train, regularizer):
     relu2 = tf.nn.relu(tf.nn.bias_add(conv2, conv2_b))
     pool2 = max_pool_2x2(relu2)
 
+    pool_shape = pool2.get_shape().as_list()
+    nodes = pool_shape[1] * pool_shape[2] * pool_shape[3]
+    reshape = tf.reshape(pool2, [pool_shape[0], nodes])
+
+    fc1_w = get_weight([nodes, FC_SIZE], regularizer)
+    fc1_b = get_bais([FC_SIZE])
+    fc1 = tf.nn.relu(tf.matmul(reshaped,fc1_w) + fc1_b)
+    if train:
+        fc1 = tf.nn.dropout(fc1, 0.5)

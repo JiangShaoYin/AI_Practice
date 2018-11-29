@@ -71,3 +71,8 @@ def forward(x, train, regularizer):
     fc1 = tf.nn.relu(tf.matmul(reshaped,fc1_w) + fc1_b)
     if train:#如果是训练阶段，则将上一轮的输出fc1，随机舍去一定比例的计算结果（神经元）
         fc1 = tf.nn.dropout(fc1, 0.5)
+
+    fc2_w = get_weight([FC_SIZE, OUTPUT_NODE], regularizer)
+    fc2_b = get_bais([OUTPUT_NODE])
+    y = tf.matmul(fc1, fc2_w) + fc2_b
+    return y

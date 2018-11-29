@@ -22,7 +22,7 @@ def ReadFile(path):
         files = os.listdir(pic_folder_path)
         for filename in files:#filename == batch_2_num_6379.jpg
             train_dataset_label.write(filename + ' ' + folder + ' ' + str(dict_pic_num[folder]) +'\n')
-    print 'write successfully!'
+    print 'write successfully!!!'
 
 ReadFile(train_folder)
 ReadFile(test_folder)

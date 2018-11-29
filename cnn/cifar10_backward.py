@@ -12,6 +12,7 @@ import os
 from tensorflow.examples.tutorials.mnist import input_data
 
 import cifar10_generateds #1
+#jj
 
 
 BATCH_SIZE = 100

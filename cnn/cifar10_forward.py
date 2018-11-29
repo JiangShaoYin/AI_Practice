@@ -69,5 +69,5 @@ def forward(x, train, regularizer):
     fc1_w = get_weight([nodes, FC_SIZE], regularizer)
     fc1_b = get_bais([FC_SIZE])
     fc1 = tf.nn.relu(tf.matmul(reshaped,fc1_w) + fc1_b)
-    if train:
+    if train:#如果是训练阶段，则将上一轮的输出fc1，随机舍去一定比例的计算结果（神经元）
         fc1 = tf.nn.dropout(fc1, 0.5)

@@ -7,8 +7,8 @@
 import tensorflow as tf
 import numpy as np
 
-IMAGE_SIZE = 28					#图像的像素尺寸
-NUM_CHANNELS = 1
+IMAGE_SIZE = 32					#图像的像素尺寸
+NUM_CHANNELS = 3
 CONV1_SIZE = 5          #第1层卷积的核长
 CONV1_KERNEL_NUM = 32   #第1层卷积层的深度（核数）
 CONV2_SIZE =5						#第2层卷积的核长

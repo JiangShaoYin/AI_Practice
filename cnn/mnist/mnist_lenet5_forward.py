@@ -15,7 +15,7 @@ CONV2_SIZE =5						#第2层卷积的核长
 CONV2_KERNEL_NUM = 64   #第2层卷积层的深度（核数）
 FC_SIZE = 512           #全连接层的神经元个数
 OUTPUT_NODE = 10        #全连接第2层的神经元个数
-
+INPUT_NODE = 3072 
 
 def get_weight(shape, regularizer):#第1层卷积的核长
     w = tf.Variable(tf.truncated_normal(shape, stddev=0.1))	#生成shape形状的参数矩阵w，其值服从平均值和标准偏差的正态分布，如果生成的值大于平均值2倍标准偏差，丢弃该值并重新选择。

@@ -13,8 +13,8 @@ import cifar10_lenet5_backward
 import cifar10_lenet5_generateds
 from tensorflow.examples.tutorials.mnist import input_data
 INTERVAL_TIME = 5
-TEST_NUM = 10000 #1
-BATCH_SIZE = 10000
+TEST_NUM = 1000 #1
+BATCH_SIZE = 1000
 #test!
 
 

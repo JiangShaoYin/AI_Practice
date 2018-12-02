@@ -30,6 +30,7 @@ def ReadFile(path):
     pic_folder = os.listdir(path)                   #s.listdir返回文件夹内的文件列表，[bird, dog, ....]
     num_dict = [0,1,2,3,4,5,6,7,8,9]
     dict_pic_num = dict(zip(pic_folder,num_dict)  ) #把2个列表合成一个字典
+
     train_dataset_label = open((path + '_label.txt'),'w')
     for folder in pic_folder:                       # folder分别是fog ,cat等文件夹 
         pic_folder_path = os.path.join(path, folder)#文件夹路径拼接
@@ -37,6 +38,8 @@ def ReadFile(path):
         for filename in files:                      #filename == batch_2_num_6379.jpg
             train_dataset_label.write(filename + ' ' + folder + ' ' + str(dict_pic_num[folder]) +'\n')
     print 'write successfully!!!'
+
+
 
 def write_tfRecord(tfRecordName, image_path, label_path):	# 生成tfrecord文件，对图片进行标注，将图和标签封装进example并做序列化处理，写入tfrecord文件
     writer = tf.python_io.TFRecordWriter(tfRecordName)		#新建一writer
@@ -107,7 +110,19 @@ def get_tfrecord(num, isTrain =True):																				#随机读取一个batc
     print 'geting successfully!'
     return img_batch,label_batch
 
+def WritePicAndNumberInfo(path):
+    pic_folder = os.listdir(path)                   #s.listdir返回文件夹内的文件列表，[bird, dog, ....]
+    num_dict = [0,1,2,3,4,5,6,7,8,9]
+    dict_pic_num = dict(zip(pic_folder,num_dict)  ) #把2个列表合成一个字典
+    Pic_PredictedVaule_dict = open('./PicKey_PicVaule.txt','w')
+
+    for key in dict_pic_num:
+        Pic_PredictedVaule_dict.write(key + ' ' + str(dict_pic_num[key]) + '\n')
+    Pic_PredictedVaule_dict.close()
+
+
 def main():
+    WritePicAndNumberInfo(train_folder)    #写,读测试文件夹train时，返回的文件夹名字(key)和对应的字典中value的txt文
     ReadFile(train_folder)
     ReadFile(test_folder)
     generate_tfRecord()

@@ -12,9 +12,7 @@ MOVING_AVERAGE_DECAY = 0.99
 MODEL_SAVE_PATH="./model/"
 MODEL_NAME="mnist_model"
 
-
 def backward(mnist):
-
     x = tf.placeholder(tf.float32, [None, mnist_forward.INPUT_NODE])
     y_ = tf.placeholder(tf.float32, [None, mnist_forward.OUTPUT_NODE])
     y = mnist_forward.forward(x, REGULARIZER)
@@ -51,12 +49,9 @@ def backward(mnist):
                 print("After %d training step(s), loss on training batch is %g." % (step, loss_value))
                 saver.save(sess, os.path.join(MODEL_SAVE_PATH, MODEL_NAME), global_step=global_step)
 
-
 def main():
     mnist = input_data.read_data_sets("./data/", one_hot=True)
     backward(mnist)
 
 if __name__ == '__main__':
     main()
-
-

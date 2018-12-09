@@ -10,4 +10,4 @@
 *.pyc
 checkpoint
 .gitignore
-
+cifar10_model*

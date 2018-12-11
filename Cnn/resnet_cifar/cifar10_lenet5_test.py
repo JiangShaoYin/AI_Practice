@@ -13,7 +13,6 @@ import tensorflow.contrib.slim.nets as nets
 from tensorflow.examples.tutorials.mnist import input_data
 INTERVAL_TIME = 5
 TEST_NUM = 100 #1
-BATCH_SIZE = 100
 #test!
 
 def test():
@@ -24,9 +23,10 @@ def test():
         y, end_points = nets.resnet_v2.resnet_v2_50(x, num_classes=10, is_training=True)
         y = tf.reshape(y, shape=[-1, 10]) #预测值，相当于y
                 
-        ema = tf.train.ExponentialMovingAverage(cifar10_lenet5_backward.MOVING_AVERAGE_DECAY)# 实现滑动平均模型，参数MOVING_AVERAGE_DECAY用于控制模型更新的速度，训练过程中会对每一个变量维护一个影子变量
-        ema_restore = ema.variables_to_restore()                                      # variable_to_restore()返回dict ({ema_variables : variables})，字典中保存变量的影子值和现值
-        saver = tf.train.Saver(ema_restore) 			                                    # 创建可还原滑动平均值的对象saver，测试时使用w的影子值，有更好的适配性
+       # ema = tf.train.ExponentialMovingAverage(cifar10_lenet5_backward.MOVING_AVERAGE_DECAY)# 实现滑动平均模型，参数MOVING_AVERAGE_DECAY用于控制模型更新的速度，训练过程中会对每一个变量维护一个影子变量
+       # ema_restore = ema.variables_to_restore()                                      # variable_to_restore()返回dict ({ema_variables : variables})，字典中保存变量的影子值和现值
+       # saver = tf.train.Saver(ema_restore) 			                                    # 创建可还原滑动平均值的对象saver，测试时使用w的影子值，有更好的适配性
+        saver = tf.train.Saver() 			                                    # 创建可还原滑动平均值的对象saver，测试时使用w的影子值，有更好的适配性
 
 
         one_hot_labels = tf.one_hot(indices=tf.cast(y_, tf.int32), depth=10)

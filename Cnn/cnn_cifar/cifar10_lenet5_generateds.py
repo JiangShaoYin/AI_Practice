@@ -78,7 +78,7 @@ def generate_tfRecord():																										#生成训练集和测试集�
     write_tfRecord(tfRecord_test, image_test_path, label_test_path)
 
 def read_tfRecord(tfRecord_path):																						#读取并解析tfrecord文件
-    filename_queue = tf.train.string_input_producer([tfRecord_path])				#该函数会生成一个先入先出的队列，文件阅读器会使用它来读取数据
+    ilename_queue = tf.train.string_input_producer([tfRecord_path])				#该函数会生成一个先入先出的队列，文件阅读器会使用它来读取数据
     reader = tf.TFRecordReader()																						#新建一个reader
     _, serialized_example = reader.read(filename_queue)       				        #把读出的每个样本保存在 serialized_example 中进行解序列化，标签和图片的
                                                                 				#键名应该和制作 tfrecords 的键名相同，其中标签给出几分类
